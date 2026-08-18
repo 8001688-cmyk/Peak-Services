@@ -1,0 +1,162 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+html {
+    scroll-behavior: smooth;
+
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #111827;
+    background: #ffffff;
+}
+
+/* NAVBAR */
+
+.navbar {
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8%;
+    border-bottom: 1px solid #eeeeee;
+    background: white;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.nav-links {
+    display: flex;
+    gap: 35px;
+}
+
+.nav-links a{
+    text-decoration: none;
+    color: #333333;
+    font-size: 15px;
+
+}
+
+.nav-links a:hover {
+    color: #2563eb;
+}
+
+/* MAIN */
+
+.main {
+    min-height: 650px;
+    display: flex;
+    align-items: center;
+    padding: 80px 8%;
+    background: #f7f9fc;
+
+}
+
+.main-content {
+    max-width: 800px;
+}
+
+.title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #2563eb;
+    margin-bottom: 20px;
+}
+
+.main h1{
+    font-size: 45px;
+    line-height: 1.05;
+    margin-bottom: 30px;
+}
+
+.main h1 span{
+    display: block;
+    color: #2563eb;
+
+}
+
+.main-text {
+    max-width: 650px;
+    font-size: 19px;
+    line-height: 1.7;
+    color: #5b6472;
+    margin-bottom: 35px;
+}
+
+.main-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 15px 25px;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 6px;
+
+}
+
+.primary {
+    background: #2563eb;
+    color: white;
+}
+
+.primary:hover {
+    background: #1d4ed8
+}
+
+/* Footer */
+
+footer {
+    padding: 30px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #eeeeee;
+    
+}
+
+footer p{
+    color: #777777;
+    font-size: 14px;
+}
+
+/* MEDAI */
+
+@media (max-width 768px) {
+    .navbar {
+        padding: 0 5%;
+
+    }
+
+    .nav-links {
+        display: none;
+
+    }
+
+    .main {
+        padding: 70px 5%;
+
+    }
+
+    .main-buttons {
+        flex-direction: column;
+        align-items: flex-start;
+
+    }
+
+    footer {
+        flex-direction: column;
+        gap: 15px;
+    }
+}

@@ -1,17 +1,84 @@
+{% load static %}
+
 <!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+
 <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
     <title>Peak Services</title>
+
+    <link href= "{% static 'main/style.css' %}" rel="stylesheet"/>
 </head>
+
+
 <body>
 
-    <h1>Peak Services</h1>
+    <!----NAVBAR---->
 
-    <p>Welcome to this site</p>
+    <nav class="navbar">
 
-    <button>Test Button</button>
+        {% if user.is_authenticated %}
+
+
+        <a href="{% url 'logout' %}">Logout</a>
+
+        {% else %}
+
+        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'signup' %}">Sign Up</a>
+
+        {% endif %}
+
+        <div class="logo">
+            Peak Services
+        </div>
+
+        <div class="nav-links">
+            <a href="#Home">Home</a>
+            <a href="#Modules">Modules</a>
+            <a href="{% url 'logout' %}">Login</a>
+            <a href="{% url 'signup' %}" class="Sign-up-button">Sign-Up</a>
+
+
+        </div>
+    </nav>
+
+    <!----MAIN---->
+
+    <section id="home" class="main">
+
+        <div class="main-content">
+
+            <p class="title">Welcome, {{ user.username }}!</p>
+
+            <h1>Manage your Business <span>with confidence</span></h1>
+
+            <p class="main-text"> Peak Services provides simple and reliable solutions to help small businesses stay organized, productive and efficient</p>
+
+            <div class="main-buttons">
+                <a href="#modules" class="btn primary">Get Started</a>
+            </div>
+
+
+        </div>
+    </section>
+
+    <footer>
+
+        <div class="logo">
+            Peak Services
+            <a href="logo"></a>
+
+
+        </div>
+
+        <p>Peak Services 2026</p>
+    </footer>
+
 
 </body>
 </html>
