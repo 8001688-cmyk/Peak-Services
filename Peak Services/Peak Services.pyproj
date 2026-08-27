@@ -59,6 +59,7 @@
     <Content Include="main\templates\main\index.html" />
     <Content Include="main\templates\main\login.html" />
     <Content Include="main\templates\main\signup.html" />
+    <Content Include="main\templates\main\inventory.html" />
     <Content Include="requirements.txt" />
     <Content Include="db.sqlite3" />
   </ItemGroup>

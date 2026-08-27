@@ -1,23 +1,58 @@
+{% load static %}
 <!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
     <title>Login PS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link href="{% static 'main/style.css' %}" rel="stylesheet" />
+
 </head>
 <body>
-    <h1>Login</h1>
+    <div class="signup-page">
 
-    <form method="POST">
+        <div class="signup-container">
 
-        {% csrf token %}
+            <div class="signup-card">
 
-        {{ form.as_p }}
+                <h1 class="signup-title"> Welcome Back </h1>
 
-        <button type="submit"> Login</button>
-    </form>
+                <p class="signup-subtitle">Login to your Peak Services account. </p>
 
-    <p>Dont have an account?</p>
-    <a href="{% url 'signup' %}">Sign Up</a>
+                <form method="POST" class="signup-form">
+
+                    {% csrf_token %}
+
+                    <label for="username">Username</label>
+
+                    <input type="text" name="username" id="username" required />
+
+                    <label for="username">Password</label>
+
+                    <input type="password" name="password" id="password" required />
+
+                    {% if form.non_field_errors %}
+                    <div class="signup-error">
+                        {{ form.non_field_errors }}
+                    </div>
+                    {% endif %}
+
+
+                    <button type="submit" class="signup-button">
+                        Login
+                    </button>
+
+                </form>
+
+                <p class="signup-login"> Dont have an account? 
+                    
+                    <a href="{% url 'signup'%}" class="signup-login-link">Login</a></p>
+
+            </div>
+            </div>
+    
+   </div>
 </body>
 </html>

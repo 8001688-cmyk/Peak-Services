@@ -1,23 +1,45 @@
+{% load static %}
 <!DOCTYPE html>
 
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
     <title>signup PS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link href="{% static 'main/style.css' %}" rel="stylesheet" />
+
 </head>
 <body>
-    <h1>Sign Up</h1>
+    <div class="signup-page">
 
-    <form method="POST">
+        <div class="signup-container">
 
-        {% csrf token %}
+            <div class="signup-card">
 
-        {{ form.as_p }}
+                <h1 class="signup-title"> Create Account </h1>
 
-        <button type="submit">Sign Up</button>
-    </form>
+                <p class="signup-subtitle">Join Peak Services today.</p>
 
-    <p>Already have an account?</p>
-    <a href="{% url 'login' %}">Login</a>
+                <form method="POST" class="signup-form">
+
+                    {% csrf_token %}
+
+                    {{ form.as_p }}
+
+                    <button type="submit" class="signup-button">
+                        Sign Up
+                    </button>
+
+                </form>
+
+                <p class="signup-login"> Already have an account? 
+                    
+                    <a href="{% url 'login'%}" class="signup-login-link">Sign Up</a></p>
+
+            </div>
+            </div>
+    
+   </div>
 </body>
 </html>
