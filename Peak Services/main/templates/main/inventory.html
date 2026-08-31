@@ -32,7 +32,103 @@
                 <p>Manage your business resources</p>
             </div>
 
-            <button class="inventory-add-button"></button>
+        </div>
+
+        <!---add stuff -->
+
+        <div class="inventory-add">
+            <h3>Add New Item</h3>
+
+            <form method="POST" action="{% url 'add_item' %}">
+                {% csrf_token %}
+
+                <input type="text"
+                       name="name"
+                       placeholder="Item name"
+                       required>
+
+                <input type="text"
+                       name="category"
+                       placeholder="Category"
+                       required>
+
+                <input type="number"
+                       name="quantity"
+                       placeholder="Quantity"
+                       required>
+
+                <button type="submit" class="inventory-add-button">
+                    Add Item
+                </button>
+            </form>
+        </div>
+
+        <div class="inventory-card">
+
+            <table class="inventory-table">
+
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Category</th>
+                        <th>Quantity</th>
+                        <th>
+                            Change Stock
+                        </th>
+                        <th>Remove</th>
+
+
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for item in items %}
+
+                    <tr>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.category }}</td>
+                        <td>{{ item.quantity }}</td>
+
+
+                        <td>
+                            <form method="POST" action="{% url 'update_stock' item.id %}">
+                                {% csrf_token %}
+
+                                <input type="number"
+                                       name="quantity"
+                                       value="{{ item.quantity }}"
+                                       min="0" >
+                                <button type="submit"> Update </button>
+                            </form>
+                        </td>
+
+                        <td>
+                            <form method="POST" action="{% url 'delete_item' item.id %}">
+
+                                { csrf_token }
+
+                                <button type="submit" class="inventory-delete-button">
+                                    Remove
+                                </button>
+                                </form>
+                        </td>
+                    </tr>
+
+                    {% empty %}
+
+                    <tr>
+                        
+                        <td colspan="5">
+                            No Inventory items yet. 
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+
+                </tbody>
+            </table>
         </div>
     </div>
 

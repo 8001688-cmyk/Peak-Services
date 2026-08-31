@@ -214,8 +214,137 @@ body {
     list-style: none;
 }
 
+/* Inventory */
 
+.inventory-page {
+    margin: 0;
+    background: #f5f7fb;
+    font-family: Arial, sans-serif;
+}
 
+.inventory-nav {
+    height: 70px;
+    padding: 0 8%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    border-bottom: 1px solid #ddd;
+}
+
+.inventory-nav h2 {
+        margin: 0;
+}
+
+.inventory-nav a {
+    margin-left: 25px;
+    text-decoration: none;
+    color: #333;
+}
+
+.inventory-container {
+    max-width: 1100px;
+    margin: 50px auto;
+    padding: 0 20px;
+}
+
+.inventory-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.inventory-header h1 {
+    margin-bottom: 8px;
+
+}
+
+.inventory-header p {
+    color: #777;
+}
+
+.inventory-add-button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    background: #2563eb;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.inventory-card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.inventory-table th, .inventory-table td {
+    padding: 18px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.inventory-table th {
+   background: #f9fafb;
+
+}
+
+.inventory-good {
+    color: #15803d;
+    font-weight: bold;
+}
+
+.inventory-low {
+    color: #dc2626;
+    font-weight: bold;
+}
+
+.inventory-add {
+    background: white;
+    padding: 25px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+}
+
+.inventory-add h3 {
+    margin-top: 0;
+}
+
+.inventory-add form {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.inventory-add input {
+    padding: 12px;
+    border: 1px solid #ddd;
+}
+
+.inventory-table input {
+    width: 70px;
+    padding: 7px;
+}
+
+.inventory-table button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.inventory-delete-button {
+    background: #dc2626;
+    color: white;
+}
 
 
 
@@ -237,7 +366,7 @@ footer p{
 
 /* MEDAI */
 
-@media (max-width 768px) {
+@media (max-width: 768px) {
     .navbar {
         padding: 0 5%;
 
