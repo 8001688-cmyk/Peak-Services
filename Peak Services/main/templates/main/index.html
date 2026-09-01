@@ -51,14 +51,14 @@
 
         <div class="main-content">
 
-            <p class="title">Welcome, {{ user.username }}!</p>
+            <p class="title">Welcome,{{ user.username }}!</p>
 
             <h1>Manage your Business <span>with confidence</span></h1>
 
             <p class="main-text"> Peak Services provides simple and reliable solutions to help small businesses stay organized, productive and efficient</p>
 
             <div class="main-buttons">
-                <a href="#modules" class="btn primary">Get Started</a>
+                <a href="{% url 'signup' %}" class="btn primary">Get Started</a>
             </div>
 
 
