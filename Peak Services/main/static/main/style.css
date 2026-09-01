@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-
+    font-family: 'Inter', sans-serif;
 }
 
 html {
@@ -18,36 +20,37 @@ body {
 
 /* NAVBAR */
 
-.navbar {
-    height: 75px;
+.all-nav {
+    height: 70px;
+    padding: 0 7%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 0 8%;
-    border-bottom: 1px solid #eeeeee;
+    justify-content: right; 
     background: white;
+    border-bottom: 1px solid #e5e7eb;
+
 }
 
-.logo {
-    font-size: 22px;
-    font-weight: 700;
+.all-nav h2 {
+    margin: 0;
+    font-size: 21px;
+    padding: 20px;
 }
 
-.nav-links {
-    display: flex;
-    gap: 35px;
-}
-
-.nav-links a{
+.all-nav a {
+    margin-left: 25px;
     text-decoration: none;
-    color: #333333;
-    font-size: 15px;
-
+    color: #6b7280;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 30px;
 }
 
-.nav-links a:hover {
+.all-nav a:hover {
     color: #2563eb;
 }
+
+
 
 /* MAIN */
 
@@ -113,6 +116,27 @@ body {
 
 .primary:hover {
     background: #1d4ed8
+}
+
+/*logout Button */
+
+.logout-btn {
+    background: transparent;
+    color: #e63946;
+    border: 2px solid #e63946;
+    padding: 9px 20px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.logout-btn:hover {
+    background: #e63946;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(230, 57, 70, 0.25);
 }
 
 /* Signup Page */
@@ -216,36 +240,18 @@ body {
 
 /* Inventory */
 
+
 .inventory-page {
     margin: 0;
     background: #f5f7fb;
-    font-family: Arial, sans-serif;
-}
-
-.inventory-nav {
-    height: 70px;
-    padding: 0 8%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: white;
-    border-bottom: 1px solid #ddd;
-}
-
-.inventory-nav h2 {
-        margin: 0;
-}
-
-.inventory-nav a {
-    margin-left: 25px;
-    text-decoration: none;
-    color: #333;
+    font-family: 'Inter', sans-serif;
+    color: #111827;
 }
 
 .inventory-container {
-    max-width: 1100px;
+    max-width: 1150px;
     margin: 50px auto;
-    padding: 0 20px;
+    padding: 0 25px;
 }
 
 .inventory-header {
@@ -256,66 +262,27 @@ body {
 }
 
 .inventory-header h1 {
-    margin-bottom: 8px;
-
+    margin: 0 0 8px;
+    font-size: 32px;
 }
 
 .inventory-header p {
-    color: #777;
+    margin: 0;
+    color: #6b7280;
 }
 
-.inventory-add-button {
-    padding: 12px 20px;
-    border: none;
-    border-radius: 6px;
-    background: #2563eb;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.inventory-card {
-    background: white;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-}
-
-.inventory-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.inventory-table th, .inventory-table td {
-    padding: 18px;
-    text-align: left;
-    border-bottom: 1px solid #eee;
-}
-
-.inventory-table th {
-   background: #f9fafb;
-
-}
-
-.inventory-good {
-    color: #15803d;
-    font-weight: bold;
-}
-
-.inventory-low {
-    color: #dc2626;
-    font-weight: bold;
-}
 
 .inventory-add {
     background: white;
     padding: 25px;
-    margin-bottom: 30px;
-    border-radius: 10px;
+    margin-bottom: 25px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
 }
 
 .inventory-add h3 {
     margin-top: 0;
+    margin-bottom: 18px;
 }
 
 .inventory-add form {
@@ -325,26 +292,103 @@ body {
 }
 
 .inventory-add input {
-    padding: 12px;
-    border: 1px solid #ddd;
+    padding: 11px 13px;
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+    font-family: inherit;
+    outline: none;
 }
 
-.inventory-table input {
-    width: 70px;
-    padding: 7px;
+.inventory-add input:focus {
+    border-color: #2563eb;
 }
 
-.inventory-table button {
-    padding: 8px 12px;
+
+.inventory-add-button {
+    padding: 11px 18px;
     border: none;
-    border-radius: 5px;
+    border-radius: 7px;
+    background: #2563eb;
+    color: white;
+    font-family: inherit;
+    font-weight: 600;
     cursor: pointer;
 }
 
-.inventory-delete-button {
-    background: #dc2626;
-    color: white;
+.inventory-add-button:hover {
+    background: #1d4ed8;
 }
+
+.inventory-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.inventory-table th {
+    padding: 16px 20px;
+    text-align: left;
+    background: #f9fafb;
+    color: #6b7280;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.inventory-table td {
+    padding: 18px 20px;
+    border-top: 1px solid #f0f0f0;
+    font-size: 14px;
+}
+
+.inventory-table tr:hover {
+    background: #fafbff;
+}
+
+
+
+.inventory-table input {
+    width: 65px;
+    padding: 7px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-family: inherit;
+}
+
+
+
+.inventory-table button {
+    padding: 7px 11px;
+    border: none;
+    border-radius: 6px;
+    background: #2563eb;
+    color: white;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.inventory-table button:hover {
+    background: #1d4ed8;
+}
+
+.inventory-delete-button {
+    background: #ef4444 !important;
+}
+
+.inventory-delete-button:hover {
+    background: #dc2626 !important;
+}
+
+
+
+
 
 
 

@@ -24,12 +24,6 @@ def signup(request):
 
 # INVENTORY
 
-def home(request):
-    return render(request, 'main/index.html')
-
-def inventory(request):
-    return render(request, 'main/inventory.html')
-
 def inventory(request):
     items = InventoryItem.objects.all()
 
@@ -68,4 +62,4 @@ def update_stock(request, item_id):
         item.quantity = request.POST['quantity']
         item.save()
 
-    return redirect('inventory')
+    return redirect('inventory') 
