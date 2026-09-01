@@ -25,10 +25,16 @@ def signup(request):
 # INVENTORY
 
 def inventory(request):
+    search = request.GET.get('search', '')
+
     items = InventoryItem.objects.all()
 
+    if search:
+        items = items.filter(name__icontains=search)
+
     return render(request, 'main/inventory.html', {
-        'items': items
+        'items': items,
+        'search': search
     })
 
 
@@ -38,11 +44,15 @@ def add_item(request):
         name = request.POST['name']
         category = request.POST['category']
         quantity = request.POST['quantity']
+        product_link = request.POST.get('product_link')
+
 
         InventoryItem.objects.create(
             name=name,
             category=category,
-            quantity=quantity
+            quantity=quantity,
+            product_link=product_link
+
         )
 
     return redirect('inventory')

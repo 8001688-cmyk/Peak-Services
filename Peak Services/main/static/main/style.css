@@ -331,6 +331,16 @@ body {
     border-collapse: collapse;
 }
 
+.inventory-table a {
+    color: #2563eb;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.inventory-table a:hover {
+    text-decoration: underline;
+}
+
 .inventory-table th {
     padding: 16px 20px;
     text-align: left;
@@ -384,6 +394,43 @@ body {
 
 .inventory-delete-button:hover {
     background: #dc2626 !important;
+}
+
+/* Search Bar for inventory */
+
+.inventory-search {
+    display: flex;
+    gap: 10px;
+    margin: 20px;
+}
+
+.inventory-search input {
+    flex: 1;
+    padding: 12px 15px;
+    border: 1px solid #d1d5db;
+    border-radius: 7px;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+}
+
+.inventory-search input:focus {
+    border-color: #2563eb;
+}
+
+.inventory-search button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 7px;
+    background: #2563eb;
+    color: white;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.inventory-search button:hover {
+    background: #1d4ed8;
 }
 
 

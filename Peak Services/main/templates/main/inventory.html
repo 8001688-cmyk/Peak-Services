@@ -57,15 +57,34 @@
                        placeholder="Quantity"
                        required/>
 
+                <input type="url"
+                       name="product_link"
+                       placeholder="Product Link (Optional)"
+                       />
+
+
                 <button type="submit" class="inventory-add-button">
                     Add Item
                 </button>
             </form>
+
+            
         </div>
+
+           <form method="GET" class="inventory-search">
+                    <input type="text"
+                           name="search"
+                           placeholder="Search items..."
+                           value="{{ search }}"/>
+
+                    <button type="submit">Search</button>
+                </form>
 
         <div class="inventory-card">
 
             <table class="inventory-table">
+
+               
 
                 <thead>
                     <tr>
@@ -75,6 +94,7 @@
                         <th>
                             Change Stock
                         </th>
+                        <th>Product Link</th>
                         <th>Remove</th>
 
 
@@ -101,6 +121,13 @@
                                 <button type="submit"> Update </button>
                             </form>
                         </td>
+                        <td>
+
+                            {% if item.product_link %}
+                                <a href="{{ item.product_link }}" target="_blank">View Product</a>
+                            {% else %}
+                                No link provided
+                            {% endif %}
 
                         <td>
                             <form method="POST" action="{% url 'delete_item' item.id %}">
