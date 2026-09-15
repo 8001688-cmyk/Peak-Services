@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Schedule PS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link href="{% static 'main/style.css' %}" rel="stylesheet" />
+</head>
+<body class="schedule-page">
+
+    <nav class="all-nav">
+        <h2>Peak Services</h2>
+
+        <div>
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'inventory' %}">Inventory</a>
+            <a href="{% url 'logout' %}">Logout</a>
+            <a href="{% url 'schedule' %}">Schedule</a>
+
+
+
+
+        </div>
+    </nav>
+
+    <!---Adding tasks-->
+
+    <div class="schedule-container">
+
+        <h1>Schedule</h1>
+        <p>Manage your meetings, deals and tasks.</p>
+
+        <section class="schedule-add">
+
+            <h2>Add Schedule Item</h2>
+
+            <form action="{% url 'add_schedule' %}" method="POST">
+
+                {% csrf_token %}
+
+                <input type="text"
+                       name="title"
+                       placeholder="Title"
+                       required />
+
+                <input type="text"
+                       name="description"
+                       placeholder="Description" />
+
+                <input type="date"
+                       name="date"
+                       required />
+
+                <input type="time"
+                       name="time"
+                       required />
+
+                <select name="item_type">
+
+                    <option value="Meeting">Meeting</option>
+                    <option value="Deal">Deal</option>
+                    <option value="Task">Task</option>
+                    <option value="Other">Other</option>
+
+                </select>
+
+                <button type="submit">Add</button>
+
+            </form>
+        </section>
+
+        <!---Adding tasks-->
+
+        <section class="schedule-item">
+
+            <h2>Upcoming</h2>
+
+            {% for item in items %}
+
+            <div class="schedule-item">
+
+                <div>
+                    
+                    <h3>{{ item.title }}</h3>
+
+                    <p>{{ item.description }}</p>
+                </div>
+
+                <div>
+
+                    <strong>{{ item.date }}</strong>
+
+                    <span>{{ item.time }}</span>
+
+                    <span>{{ item.item_type }}</span>
+                </div>
+            </div>
+
+            {% empty %}
+            
+            <p>No scheduled items yet.</p>
+
+            {% endfor %}
+        </section>
+
+    </div>
+
+</body>
+</html>

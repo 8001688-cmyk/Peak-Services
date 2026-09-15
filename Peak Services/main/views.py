@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login 
-from .models import InventoryItem
+from .models import InventoryItem, ScheduleItem
 from django.contrib.auth.forms import UserCreationForm 
+from datetime import date
 
 
 
@@ -73,3 +74,23 @@ def update_stock(request, item_id):
         item.save()
 
     return redirect('inventory') 
+
+
+# Schedule module
+
+def schedule(request):
+    today = date.today()
+    items = ScheduleItem.objects.all().order_by('date', 'time')
+
+    return render(request, 'main/schedule.html', {'items': items, 'today': today,})
+
+def add_schedule(request):
+    if request.method == 'POST':
+        ScheduleItem.objects.create(title=request.POST['title'],
+        description=request.POST['description'],
+        date=request.POST['date'],
+        time=request.POST['time'],
+
+        item_type=request.POST['item_type'])
+
+        return redirect('schedule')

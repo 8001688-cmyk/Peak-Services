@@ -26,9 +26,10 @@
         {% if user.is_authenticated %}
 
 
+        <a href="{% url 'schedule' %}">Schedule</a>
 
         <a href="{% url 'inventory' %}">Inventory</a>
-       
+
         <form method="POST" action="{% url 'logout' %}">
             {% csrf_token %}
             <button type="submit" class="logout-btn">Logout</button>
@@ -51,7 +52,7 @@
 
         <div class="main-content">
 
-            <p class="title">Welcome,{{ user.username }}!</p>
+            <p class="title">Welcome, {{ user.username }}!</p>
 
             <h1>Manage your Business <span>with confidence</span></h1>
 
