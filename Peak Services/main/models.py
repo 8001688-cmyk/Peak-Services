@@ -28,6 +28,8 @@ class ScheduleItem(models.Model):
     time = models.TimeField()
     item_type = models.CharField(max_length=20, choices=TYPE_CHOICES, default='Task')
 
+    completed = models.BooleanField(default=False)
+
     def __str__(self):
         return self.title
 

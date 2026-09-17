@@ -13,5 +13,8 @@ urlpatterns = [
     path('inventory/update/<int:item_id>/', views.update_stock, name='update_stock'),
     path('schedule/', views.schedule, name='schedule'),
     path('schedule/add/', views.add_schedule, name='add_schedule'),
+    path('schedule/complete/<int:item_id>/',  views.complete_schedule, name='complete_schedule'),
+    path('schedule/delete/<int:item_id>/',  views.delete_schedule, name='delete_schedule'),
+
 
  ]

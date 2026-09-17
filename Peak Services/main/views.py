@@ -1,8 +1,10 @@
+from operator import truediv
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login 
 from .models import InventoryItem, ScheduleItem
 from django.contrib.auth.forms import UserCreationForm 
 from datetime import date
+
 
 
 
@@ -81,8 +83,9 @@ def update_stock(request, item_id):
 def schedule(request):
     today = date.today()
     items = ScheduleItem.objects.all().order_by('date', 'time')
+    upcoming_items = ScheduleItem.objects.filter(date__gte=today).order_by('date', 'time')[:5]
 
-    return render(request, 'main/schedule.html', {'items': items, 'today': today,})
+    return render(request, 'main/schedule.html', {'items': items, 'today': today, 'upcoming_items': upcoming_items,})
 
 def add_schedule(request):
     if request.method == 'POST':
@@ -92,5 +95,25 @@ def add_schedule(request):
         time=request.POST['time'],
 
         item_type=request.POST['item_type'])
+
+
+
+        return redirect('schedule')
+
+def complete_schedule(request, item_id):
+    item = get_object_or_404(ScheduleItem, id=item_id)
+    
+    if request.method == 'POST':
+        item.completed = True 
+        item.save()
+
+        return redirect('schedule')
+
+def delete_schedule(request, item_id):
+
+    item = get_object_or_404(ScheduleItem, id=item_id)
+
+    if request.method == 'POST':
+        item.delete()
 
         return redirect('schedule')

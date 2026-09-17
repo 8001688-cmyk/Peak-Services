@@ -1,62 +1,194 @@
 {% load static %}
+
 <!DOCTYPE html>
-
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <title>Schedule PS</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link href="{% static 'main/style.css' %}" rel="stylesheet" />
+    <title>Schedule | Peak Services</title>
+
+    <link rel="stylesheet" href="{% static 'main/style.css' %}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+          rel="stylesheet">
 </head>
+
 <body class="schedule-page">
 
-    <nav class="all-nav">
+    <nav class="inventory-nav">
+
         <h2>Peak Services</h2>
 
         <div>
             <a href="{% url 'home' %}">Home</a>
+
             <a href="{% url 'inventory' %}">Inventory</a>
-            <a href="{% url 'logout' %}">Logout</a>
+
             <a href="{% url 'schedule' %}">Schedule</a>
 
-
-
-
+            <form method="POST" action="{% url 'logout' %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="inventory-logout">
+                    Logout
+                </button>
+            </form>
         </div>
+
     </nav>
 
-    <!---Adding tasks-->
 
-    <div class="schedule-container">
+    <main class="schedule-container">
 
-        <h1>Schedule</h1>
-        <p>Manage your meetings, deals and tasks.</p>
+        <!-- HEADER -->
 
-        <section class="schedule-add">
+        <div class="schedule-header">
+
+            <div>
+                <h1>Schedule</h1>
+                <p>Manage your meetings, deals and tasks.</p>
+            </div>
+
+            <button class="schedule-add-button" onclick="showAddForm()">
+                + Add event
+            </button>
+
+        </div>
+
+
+        <!-- UPCOMING EVENTS -->
+
+        <section class="upcoming-card">
+
+            <div class="upcoming-title">
+
+                <div>
+                    <h2>🔔 Upcoming</h2>
+
+                    {% if upcoming_items %}
+                    <p>You have {{ upcoming_items|length }} upcoming event{{ upcoming_items|length|pluralize }}.</p>
+                    {% else %}
+                    <p>You have no upcoming events.</p>
+                    {% endif %}
+                </div>
+
+            </div>
+
+
+            {% if upcoming_items %}
+
+            <div class="upcoming-list">
+
+                {% for item in upcoming_items %}
+
+                <div class="upcoming-item"
+                     onclick="showEvent(
+                            '{{ item.id }}',
+                            '{{ item.title|escapejs }}',
+                            '{{ item.description|escapejs }}',
+                            '{{ item.date|date:'d F Y' }}',
+                            '{{ item.time|time:'H:i' }}',
+                            '{{ item.item_type|escapejs }}'
+                         )">
+
+                    <div class="upcoming-icon">
+                        {% if item.item_type == "Meeting" %}
+                        📅
+                        {% elif item.item_type == "Deal" %}
+                        💰
+                        {% elif item.item_type == "Task" %}
+                        ✓
+                        {% else %}
+                        📌
+                        {% endif %}
+                    </div>
+
+                    <div class="upcoming-info">
+
+                        <strong>{{ item.title }}</strong>
+
+                        <span>
+                            {{ item.date|date:"d M Y" }}
+                            ·
+                            {{ item.time|time:"H:i" }}
+                        </span>
+
+                    </div>
+
+                    <div class="upcoming-type">
+                        {{ item.item_type }}
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% endif %}
+
+        </section>
+
+
+        <!-- CALENDAR -->
+
+        <section class="calendar-card">
+
+            <div class="calendar-top">
+
+                <button onclick="previousMonth()">‹</button>
+
+                <h2 id="month-year"></h2>
+
+                <button onclick="nextMonth()">›</button>
+
+            </div>
+
+
+            <div class="calendar-weekdays">
+
+                <div>Sun</div>
+                <div>Mon</div>
+                <div>Tue</div>
+                <div>Wed</div>
+                <div>Thu</div>
+                <div>Fri</div>
+                <div>Sat</div>
+
+            </div>
+
+
+            <div id="calendar" class="calendar-grid"></div>
+
+        </section>
+
+
+        <!-- ADD EVENT FORM -->
+
+        <section id="add-form" class="schedule-add" style="display: none;">
 
             <h2>Add Schedule Item</h2>
 
-            <form action="{% url 'add_schedule' %}" method="POST">
+            <form method="POST" action="{% url 'add_schedule' %}">
 
                 {% csrf_token %}
 
                 <input type="text"
                        name="title"
                        placeholder="Title"
-                       required />
+                       required>
 
                 <input type="text"
                        name="description"
-                       placeholder="Description" />
+                       placeholder="Description">
 
                 <input type="date"
                        name="date"
-                       required />
+                       required>
 
                 <input type="time"
                        name="time"
-                       required />
+                       required>
 
                 <select name="item_type">
 
@@ -67,46 +199,323 @@
 
                 </select>
 
-                <button type="submit">Add</button>
+                <button type="submit">
+                    Add
+                </button>
 
             </form>
+
         </section>
 
-        <!---Adding tasks-->
+    </main>
 
-        <section class="schedule-item">
 
-            <h2>Upcoming</h2>
+    <!-- EVENT DETAILS POPUP -->
 
-            {% for item in items %}
+    <div id="event-modal" class="event-modal">
 
-            <div class="schedule-item">
+        <div class="event-modal-content">
 
-                <div>
-                    
-                    <h3>{{ item.title }}</h3>
+            <button class="event-close" onclick="closeEvent()">
+                ×
+            </button>
 
-                    <p>{{ item.description }}</p>
-                </div>
+            <h2 id="event-title"></h2>
 
-                <div>
+            <div class="event-detail">
 
-                    <strong>{{ item.date }}</strong>
+                <strong>📅 Date</strong>
 
-                    <span>{{ item.time }}</span>
+                <span id="event-date"></span>
 
-                    <span>{{ item.item_type }}</span>
-                </div>
             </div>
 
-            {% empty %}
-            
-            <p>No scheduled items yet.</p>
 
-            {% endfor %}
-        </section>
+            <div class="event-detail">
+
+                <strong>🕐 Time</strong>
+
+                <span id="event-time"></span>
+
+            </div>
+
+
+            <div class="event-detail">
+
+                <strong>📌 Type</strong>
+
+                <span id="event-type"></span>
+
+            </div>
+
+
+            <div class="event-description">
+
+                <strong>Description</strong>
+
+                <p id="event-description"></p>
+
+            </div>
+
+        </div>
 
     </div>
+
+
+    <script>
+
+const events = [
+
+    {% for item in items %}
+
+    {
+        id: "{{ item.id }}",
+        title: "{{ item.title|escapejs }}",
+        description: "{{ item.description|escapejs }}",
+        date: "{{ item.date|date:'Y-m-d' }}",
+        time: "{{ item.time|time:'H:i' }}",
+        type: "{{ item.item_type|escapejs }}",
+        completed: "{{ item.completed|yesno:"true,false" }}",
+    },
+
+    {% endfor %}
+
+];
+
+
+let currentDate = new Date();
+
+
+function generateCalendar() {
+
+    const calendar = document.getElementById("calendar");
+
+    const monthYear = document.getElementById("month-year");
+
+    calendar.innerHTML = "";
+
+
+    const year = currentDate.getFullYear();
+
+    const month = currentDate.getMonth();
+
+
+    const firstDay = new Date(year, month, 1).getDay();
+
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+
+    monthYear.textContent = currentDate.toLocaleDateString(
+        "en-AU",
+        {
+            month: "long",
+            year: "numeric"
+        }
+    );
+
+
+    // Empty spaces before first day
+
+    for (let i = 0; i < firstDay; i++) {
+
+        const emptyDay = document.createElement("div");
+
+        emptyDay.className = "calendar-day empty";
+
+        calendar.appendChild(emptyDay);
+
+    }
+
+
+    // Calendar days
+
+    for (let day = 1; day <= daysInMonth; day++) {
+
+        const dayElement = document.createElement("div");
+
+        dayElement.className = "calendar-day";
+
+
+        const dateString =
+            `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+
+        dayElement.innerHTML =
+            `<div class="calendar-date">${day}</div>`;
+
+
+        const dayEvents =
+            events.filter(event => event.date === dateString);
+
+
+        dayEvents.forEach(event => {
+
+            const eventElement =
+                document.createElement("div");
+
+
+            eventElement.className =
+                "calendar-event";
+
+
+            eventElement.textContent =
+                `${event.time} ${event.title}`;
+
+
+            // Make event clickable
+
+            eventElement.onclick = function(eventClick) {
+
+                eventClick.stopPropagation();
+
+                showEvent(
+                    event.id,
+                    event.title,
+                    event.description,
+                    formatDate(event.date),
+                    event.time,
+                    event.type
+                );
+
+            };
+
+
+            dayElement.appendChild(eventElement);
+
+        });
+
+
+        calendar.appendChild(dayElement);
+
+    }
+
+}
+
+
+function previousMonth() {
+
+    currentDate.setMonth(
+        currentDate.getMonth() - 1
+    );
+
+    generateCalendar();
+
+}
+
+
+function nextMonth() {
+
+    currentDate.setMonth(
+        currentDate.getMonth() + 1
+    );
+
+    generateCalendar();
+
+}
+
+
+function showAddForm() {
+
+    const form =
+        document.getElementById("add-form");
+
+
+    form.style.display = "block";
+
+
+    form.scrollIntoView({
+        behavior: "smooth"
+    });
+
+}
+
+
+function showEvent(
+    id,
+    title,
+    description,
+    date,
+    time,
+    type
+) {
+
+    document.getElementById("event-title").textContent =
+        title;
+
+
+    document.getElementById("event-date").textContent =
+        date;
+
+
+    document.getElementById("event-time").textContent =
+        time;
+
+
+    document.getElementById("event-type").textContent =
+        type;
+
+
+    document.getElementById("event-description").textContent =
+        description || "No description provided.";
+
+
+    document.getElementById("event-modal").style.display =
+        "flex";
+
+}
+
+
+function closeEvent() {
+
+    document.getElementById("event-modal").style.display =
+        "none";
+
+}
+
+
+function formatDate(dateString) {
+
+    const parts = dateString.split("-");
+
+    const date = new Date(
+        parts[0],
+        parts[1] - 1,
+        parts[2]
+    );
+
+
+    return date.toLocaleDateString(
+        "en-AU",
+        {
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        }
+    );
+
+}
+
+
+// Close popup when clicking outside it
+
+window.onclick = function(event) {
+
+    const modal =
+        document.getElementById("event-modal");
+
+
+    if (event.target === modal) {
+
+        closeEvent();
+
+    }
+
+};
+
+
+generateCalendar();
+
+    </script>
 
 </body>
 </html>
