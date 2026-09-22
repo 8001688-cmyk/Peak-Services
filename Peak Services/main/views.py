@@ -1,7 +1,7 @@
 from operator import truediv
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login 
-from .models import InventoryItem, ScheduleItem
+from .models import InventoryItem, ScheduleItem, Transaction
 from django.contrib.auth.forms import UserCreationForm 
 from datetime import date
 
@@ -117,3 +117,47 @@ def delete_schedule(request, item_id):
         item.delete()
 
         return redirect('schedule')
+
+
+# finance module
+
+def finance(request):
+    transactions = Transaction.objects.all().order_by('-date')
+
+    income = 0
+    expenses = 0
+
+    for transaction in transactions:
+        if transaction.transaction_type == 'Income':
+            income += transaction.amount 
+        else:
+            expenses += transaction.amount
+
+        profit = income - expenses
+
+        return render(request, 'main/finance.html', {
+            'transactions': transactions,
+            'income': income,
+            'expenses': expenses,
+            'profit': profit,
+
+            })
+
+def add_transaction(request):
+    if request.method == 'POST':
+        Transaction.objects.create(
+            description=request.POST['descrpition'],
+            amount=request.POST['amount'],
+            transaction_type=request.POST['transaction_type'],
+            category=request.POST['category'],
+            date=request.POST['date'],
+            )
+
+        return redirect('finance')
+
+def delete_transaction(request, item_id):
+    transaction = get_object_or_404(Transaction, id=item_id)
+
+    if request.method == 'POST': transaction.delete()
+
+    return redirect('finance')

@@ -40,7 +40,6 @@
 
     <main class="schedule-container">
 
-        <!-- HEADER -->
 
         <div class="schedule-header">
 
@@ -56,14 +55,14 @@
         </div>
 
 
-        <!-- UPCOMING EVENTS -->
+<!--upcoming events-->
 
         <section class="upcoming-card">
 
             <div class="upcoming-title">
 
                 <div>
-                    <h2>🔔 Upcoming</h2>
+                    <h2> Upcoming</h2>
 
                     {% if upcoming_items %}
                     <p>You have {{ upcoming_items|length }} upcoming event{{ upcoming_items|length|pluralize }}.</p>
@@ -81,7 +80,7 @@
 
                 {% for item in upcoming_items %}
 
-                <div class="upcoming-item"
+                <div class="upcoming-item {% if item.completed %}completed-upcoming{% endif %}"
                      onclick="showEvent(
                             '{{ item.id }}',
                             '{{ item.title|escapejs }}',
@@ -257,6 +256,17 @@
 
             </div>
 
+            <form id="complete-form" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="complete-button"> ✓ Complete Event </button>
+            </form>
+
+
+            <form id="delete-form" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="delete-button"> Delete Event </button>
+            </form>
+
         </div>
 
     </div>
@@ -275,7 +285,7 @@ const events = [
         date: "{{ item.date|date:'Y-m-d' }}",
         time: "{{ item.time|time:'H:i' }}",
         type: "{{ item.item_type|escapejs }}",
-        completed: "{{ item.completed|yesno:"true,false" }}",
+        completed: {{ item.completed|yesno:"true,false" }},
     },
 
     {% endfor %}
@@ -361,6 +371,9 @@ function generateCalendar() {
             eventElement.textContent =
                 `${event.time} ${event.title}`;
 
+            if (event.completed) {
+                eventElement.classList.add("completed-event");
+            }
 
             // Make event clickable
 
@@ -455,12 +468,14 @@ function showEvent(
         type;
 
 
-    document.getElementById("event-description").textContent =
-        description || "No description provided.";
+    document.getElementById("event-description").textContent = description || "No description provided.";
+
+    document.getElementById("complete-form").action = "/schedule/complete/" + id + "/";
+
+    document.getElementById("delete-form").action = "/schedule/delete/" + id + "/";
 
 
-    document.getElementById("event-modal").style.display =
-        "flex";
+    document.getElementById("event-modal").style.display = "flex";
 
 }
 

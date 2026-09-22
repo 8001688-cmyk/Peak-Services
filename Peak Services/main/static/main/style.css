@@ -601,7 +601,59 @@ body {
     cursor: pointer;
 }
 
+.delete-button {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 11px 20px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    width: 100%;
+    margin-top: 8px;
+    transition: 0.2s;
+}
 
+.delete-button:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+}
+
+.complete-button {
+    background: #22c55e;
+    color: white;
+    border: none;
+    padding: 11px 20px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    width: 100%;
+
+    margin-top: 15px;
+    transition: 0.2s;
+}
+
+.completed-button:hover {
+    background: #16a34a;
+    transform: translateY(-1px);
+}
+
+.completed-button:active {
+    transform: translateY(0)
+}
+
+.completed-event {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+.completed-upcoming {
+    background-color: #d4edda;
+    text-decoration: line-through;
+    opacity: 0.8;
+}
 
 .upcoming-card {
     background: white;
@@ -637,7 +689,7 @@ body {
 }
 
 .upcoming-item:hover {
-    background: #f9fafb;
+    background: #dddddd;
 }
 
 .upcoming-icon {
