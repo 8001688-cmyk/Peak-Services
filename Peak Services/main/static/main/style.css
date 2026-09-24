@@ -836,32 +836,4 @@ footer p{
     font-size: 14px;
 }
 
-/* MEDAI */
 
-@media (max-width: 768px) {
-    .navbar {
-        padding: 0 5%;
-
-    }
-
-    .nav-links {
-        display: none;
-
-    }
-
-    .main {
-        padding: 70px 5%;
-
-    }
-
-    .main-buttons {
-        flex-direction: column;
-        align-items: flex-start;
-
-    }
-
-    footer {
-        flex-direction: column;
-        gap: 15px;
-    }
-}
