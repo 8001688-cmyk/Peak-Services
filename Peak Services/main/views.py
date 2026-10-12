@@ -129,35 +129,38 @@ def finance(request):
 
     for transaction in transactions:
         if transaction.transaction_type == 'Income':
-            income += transaction.amount 
+            income += transaction.amount
         else:
             expenses += transaction.amount
 
-        profit = income - expenses
+  
+    profit = income - expenses
 
-        return render(request, 'main/finance.html', {
-            'transactions': transactions,
-            'income': income,
-            'expenses': expenses,
-            'profit': profit,
+    return render(request, 'main/finance.html', {
+        'transactions': transactions,
+        'income': income,
+        'expenses': expenses,
+        'profit': profit,
+    })
 
-            })
 
 def add_transaction(request):
     if request.method == 'POST':
         Transaction.objects.create(
-            description=request.POST['descrpition'],
+            description=request.POST['description'],
             amount=request.POST['amount'],
             transaction_type=request.POST['transaction_type'],
             category=request.POST['category'],
             date=request.POST['date'],
-            )
+        )
 
-        return redirect('finance')
+    return redirect('finance')
+
 
 def delete_transaction(request, item_id):
     transaction = get_object_or_404(Transaction, id=item_id)
 
-    if request.method == 'POST': transaction.delete()
+    if request.method == 'POST':
+        transaction.delete()
 
     return redirect('finance')

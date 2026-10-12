@@ -1,4 +1,4 @@
-{% load static %}
+{% load static l10n %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -20,8 +20,11 @@
         <div>
             <a href="{% url 'home' %}">Home</a>
             <a href="{% url 'inventory' %}">Inventory</a>
-            <a href="{% url 'logout' %}">Logout</a>
             <a href="{% url 'schedule' %}">Schedule</a>
+            <a href="{% url 'finance' %}">finance</a>
+
+            <a href="{% url 'logout' %}">Logout</a>
+
 
 
 
@@ -43,19 +46,53 @@
 
     <div class="finance-summary">
 
+        <!-- Income -->
+
         <div class="finance-card">
-            <div class="finance-card-icon"> -></div>
+            <div class="finance-card-icon">↗</div>
 
             <div>
                 <p>Total Income</p>
-                <h2>${{ income|float format:2 }}</h2>
+                <h2>${{ income|floatformat:2 }}</h2>
 
-                <span> Income minus expenses </span>
-
-
+                <span class="finance-income-text">
+                    Money coming into your business
+                </span>
             </div>
         </div>
+
+        <!-- Expenses -->
+
+        <div class="finance-card">
+            <div class="finance-card-icon">↘</div>
+
+            <div>
+                <p>Total Expenses</p>
+                <h2>${{ expenses|floatformat:2 }}</h2>
+
+                <span class="finance-expense-text">
+                    Business spending
+                </span>
+            </div>
+        </div>
+
+        <!-- Profit -->
+
+        <div class="finance-card finance-profit-card">
+            <div class="finance-card-icon">$</div>
+
+            <div>
+                <p>Net Profit</p>
+                <h2>${{ profit|floatformat:2 }}</h2>
+
+                <span>
+                    Income minus expenses
+                </span>
+            </div>
+        </div>
+
     </div>
+
 
     <!--Charts-->
 
@@ -75,12 +112,432 @@
             </div>
         </div>
 
-        <div class="finance-chart-cardfinance-breakdown-card">
+        <div class="finance-chart-card-finance-breakdown-card">
 
-            <div class=""
+            <div class="finance-section-heading">
+                <div>
+                    <h2>Money Overview</h2>
+                    <p>Your current financial position</p>
+                </div>
+            </div>
 
+            <div class="finance-doughnut-container">
+                <canvas id="financeBreakdownChart"></canvas>
+            </div>
         </div>
     </div>
+
+    <!--Transactoins-->
+
+    <div class="finance-transactions">
+
+        <div class="finance-section-heading">
+            <div>
+                <h2>Recent Transactions</h2>
+                <p>Your latest business income</p>
+            </div>
+        </div>
+
+        <div class="finance-table-wrapper">
+
+            <table class="finance-table">
+                <thead>
+                    <tr>
+                        <th>Descriptions</th>
+                        <th>Category</th>
+                        <th>Date</th>
+                        <th>Type</th>
+                        <th>Amount</th>
+                        <th></th>
+
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for transaction in transactions %}
+
+                    <tr>
+
+                        <td>
+
+                            <strong>{{ transaction.description }}</strong>
+                        </td>
+
+                        <td>
+                            <span class="finance-category"> {{ transaction.category }}</span>
+                        </td>
+
+                        <td>
+                            {{ transaction.date|date:"d M Y"}}
+                        </td>
+
+                        <td>
+                            {% if transaction.transaction_type == "Income" %}
+
+                            <span class="finance-type-income">Income</span>
+
+                            {% else %}
+
+                            <span class="finance-type-expense">Expense</span>
+
+                            {% endif %}
+                        </td>
+                        <td>
+
+                            {% if transaction.transaction_type == "Income" %}
+
+                            <strong class="finance-money-income">
+                                +${{ transaction.amount|floatformat:2 }}
+                            </strong>
+
+                            {% else %}
+
+                            <strong class="finance-money-expense">
+                                -${{ transaction.amount|floatformat:2 }}
+                            </strong>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+
+                            <form method="POST"
+                                  action="{% url 'delete_transaction' transaction.id %}">
+
+                                {% csrf_token %}
+
+                                <button type="submit"
+                                        class="finance-delete-button"
+                                        onclick="return confirm('Delete this transaction?')">
+
+                                    Delete
+
+                                </button>
+
+                            </form>
+
+                        </td>
+
+                    </tr>
+
+
+                    {% empty %}
+
+                    <tr>
+                        <td colspan="6" class="finance-empty">
+                            No transactions yet. Add your first transaction.
+                        </td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- add transaction popup -->
+
+    <div id="financeModal" class="finance-modal">
+
+        <div class="finance-modal-box">
+
+            <div class="finance-modal-header">
+
+                <div>
+                    <h2>Add Transaction</h2>
+                    <p>Record business income or an expense.</p>
+                </div>
+
+                <button type="button"
+                        class="finance-close-button"
+                        onclick="closeFinanceForm()">
+                    x
+                </button>
+
+            </div>
+
+
+            <form method="POST" action="{% url 'add_transaction' %}">
+
+                {% csrf_token %}
+
+
+                <div class="finance-form-group">
+
+                    <label>Description</label>
+
+                    <input type="text"
+                           name="description"
+                           placeholder="e.g. Customer payment"
+                           required>
+
+                </div>
+
+
+                <div class="finance-form-row">
+
+                    <div class="finance-form-group">
+
+                        <label>Amount ($)</label>
+
+                        <input type="number"
+                               name="amount"
+                               step="0.01"
+                               min="0.01"
+                               placeholder="0.00"
+                               required>
+
+                    </div>
+
+
+                    <div class="finance-form-group">
+
+                        <label>Date</label>
+
+                        <input type="date"
+                               name="date"
+                               required>
+
+                    </div>
+
+                </div>
+
+
+                <div class="finance-form-row">
+
+                    <div class="finance-form-group">
+
+                        <label>Type</label>
+
+                        <select name="transaction_type" required>
+
+                            <option value="">Select type</option>
+                            <option value="Income">Income</option>
+                            <option value="Expense">Expense</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="finance-form-group">
+
+                        <label>Category</label>
+
+                        <select name="category" required>
+
+                            <option value="">Select category</option>
+
+                            <option value="Sales">Sales</option>
+                            <option value="Services">Services</option>
+                            <option value="Inventory">Inventory</option>
+                            <option value="Rent">Rent</option>
+                            <option value="Utilities">Utilities</option>
+                            <option value="Wages">Wages</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Other">Other</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="finance-form-buttons">
+
+                    <button type="button"
+                            class="finance-cancel-button"
+                            onclick="closeFinanceForm()">
+
+                        Cancel
+
+                    </button>
+
+                    <button type="submit"
+                            class="finance-save-button">
+
+                        Add Transaction
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+    <script>
+
+
+
+    function openFinanceForm() {
+        document.getElementById("financeModal").style.display = "flex";
+    }
+
+
+  // closes the popup
+
+    function closeFinanceForm() {
+        document.getElementById("financeModal").style.display = "none";
+    }
+
+
+
+
+    window.addEventListener("click", function(event) {
+
+        const modal = document.getElementById("financeModal");
+
+        if (event.target === modal) {
+            closeFinanceForm();
+        }
+
+    });
+
+
+
+ // finance chart
+
+    const overviewChart =
+        document.getElementById("financeOverviewChart");
+
+
+    new Chart(overviewChart, {
+
+        type: "bar",
+
+        data: {
+
+            labels: ["Income", "Expenses", "Profit"],
+
+            datasets: [{
+
+                label: "Amount ($)",
+
+                data: [
+                    {{ income|unlocalize }},
+                    {{ expenses|unlocalize }},
+                    {{ profit|unlocalize }}
+                ],
+
+                backgroundColor: [
+                    "#22c55e",
+                    "#ef4444",
+                    "#3b82f6"
+                ],
+
+                borderRadius: 8
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            plugins: {
+
+                legend: {
+                    display: false
+                }
+
+            },
+
+            scales: {
+
+                y: {
+
+                    beginAtZero: true,
+
+                    ticks: {
+
+                        callback: function(value) {
+                            return "$" + value;
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    });
+
+
+
+    // money breakdown charts
+
+    const breakdownChart =
+        document.getElementById("financeBreakdownChart");
+
+
+    new Chart(breakdownChart, {
+
+        type: "doughnut",
+
+        data: {
+
+            labels: ["Income", "Expenses"],
+
+            datasets: [{
+
+                data: [
+                    {{ income|unlocalize }},
+                    {{ expenses|unlocalize }}
+                ],
+
+                backgroundColor: [
+                    "#22c55e",
+                    "#ef4444"
+                ],
+
+                borderWidth: 0
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            cutout: "70%",
+
+            plugins: {
+
+                legend: {
+                    position: "bottom"
+                }
+
+            }
+
+        }
+
+    });
+
+    </script>
+
 
 </body>
 </html>
