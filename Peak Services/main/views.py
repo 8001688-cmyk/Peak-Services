@@ -4,6 +4,8 @@ from django.contrib.auth import login
 from .models import InventoryItem, ScheduleItem, Transaction
 from django.contrib.auth.forms import UserCreationForm 
 from datetime import date
+from decimal import Decimal 
+
 
 
 

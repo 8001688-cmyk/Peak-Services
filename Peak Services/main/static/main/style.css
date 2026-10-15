@@ -55,12 +55,12 @@ body {
 /* MAIN */
 
 .main {
-    min-height: 650px;
+    min-height: 350px;
     display: flex;
     align-items: center;
     padding: 80px 8%;
     background: #f7f9fc;
-
+        
 }
 
 .main-content {
@@ -117,6 +117,113 @@ body {
 .primary:hover {
     background: #1d4ed8
 }
+
+.home-workspace {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 45px 30px 70px;
+}
+
+.home-workspace-header {
+    margin-bottom: 30px;
+}
+
+    .home-workspace-header h2 {
+        font-size: 28px;
+        color: #17233b;
+        margin-bottom: 8px;
+    }
+
+    .home-workspace-header p {
+        color: #64748b;
+        font-size: 15px;
+    }
+
+/* NAVIGATION CARDS */
+
+.home-module-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+.home-module-card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 15px;
+    padding: 30px;
+    text-decoration: none;
+    color: #17233b;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+    transition: 0.25s ease;
+}
+
+    .home-module-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 30px rgba(37,99,235,0.12);
+        border-color: #2563eb;
+    }
+
+.home-module-icon {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.home-module-card h3 {
+    font-size: 19px;
+    margin-bottom: 12px;
+}
+
+.home-module-card p {
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.7;
+    margin-bottom: 22px;
+}
+
+.home-module-link {
+    color: #2563eb;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* business oveview */
+
+.home-overview {
+    margin-top: 50px;
+}
+
+.home-overview h2 {
+    font-size: 24px;
+    margin-bottom: 22px;
+    color: #17233b;
+}
+
+.home-overview-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.home-overview-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 25px;
+}
+
+.home-overview-card p {
+    color: #64748b;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+
+.home-overview-card h3 {
+    color: #2563eb;
+    font-size: 27px;
+    margin: 0;
+}
+
 
 /*logout Button */
 
@@ -829,8 +936,6 @@ body {
 }
 
 
-/* header finance */
-
 .finance-header {
     max-width: 1400px;
     margin: 0 auto 30px;
@@ -931,7 +1036,7 @@ body {
 }
 
 .finance-profit-card {
-    background: linear-gradient(135deg, #2563eb, #1e40af);
+    background: #2563eb;
 }
 
 .finance-profit-card p, .finance-profit-card h2, .finance-profit-card span {

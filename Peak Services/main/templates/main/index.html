@@ -29,7 +29,7 @@
         <a href="{% url 'schedule' %}">Schedule</a>
 
         <a href="{% url 'inventory' %}">Inventory</a>
-        <a href="{% url 'finance' %}">finance</a>
+        <a href="{% url 'finance' %}">Finance</a>
 
 
         <form method="POST" action="{% url 'logout' %}">
@@ -50,20 +50,89 @@
 
     <!----MAIN---->
 
-    <section id="home" class="main">
+    <section class="home-workspace">
 
-        <div class="main-content">
+        <div class="home-workspace-header">
 
-            <p class="title">Welcome, {{ user.username }}!</p>
+            <h2>Explore Your Workspace</h2>
+            <p>Everything you need to manage your business in one place.</p>
+        </div>
+        <div class="home-module-grid">
 
-            <h1>Manage your Business <span>with confidence</span></h1>
+            <a href="{% url 'inventory' %}" class="home-module-card">
+                <div class="home-module-icon">📦</div>
 
-            <p class="main-text"> Peak Services provides simple and reliable solutions to help small businesses stay organized, productive and efficient</p>
+                <h3>Inventory Management</h3>
 
-            <div class="main-buttons">
-                <a href="{% url 'signup' %}" class="btn primary">Get Started</a>
+                <p>
+                    Track your products, manage stock levels
+                    and organise business resources.
+                </p>
+
+                <span class="home-module-link">
+                    Manage Inventory →
+                </span>
+            </a>
+
+            <a href="{% url 'schedule' %}" class="home-module-card">
+                <div class="home-module-icon">📅</div>
+
+                <h3>Schedule & Events</h3>
+
+                <p>
+                    Organise meetings, manage tasks
+                    and keep track of upcoming events.
+                </p>
+
+                <span class="home-module-link">
+                    View Schedule →
+                </span>
+            </a>
+
+            <a href="{% url 'finance' %}" class="home-module-card">
+                <div class="home-module-icon">📊</div>
+
+                <h3>Finance Management</h3>
+
+                <p>
+                    Monitor business income, track expenses
+                    and analyse your financial performance.
+                </p>
+
+                <span class="home-module-link">
+                    View Finance →
+                </span>
+            </a>
+
+        </div>
+
+        <div class="home-overview">
+
+            <h2>Business at a Glance</h2>
+
+            <div class="home-overview-grid">
+
+                <div class="home-overview-card">
+                    <p>Net Profit</p>
+                    <h3>${{ total_profit|floatformat:2 }}</h3>
+                </div>
+
+                <div class="home-overview-card">
+                    <p>Inventory Items</p>
+                    <h3>{{ inventory_count }}</h3>
+                </div>
+
+                <div class="home-overview-card">
+                    <p>Upcoming Tasks</p>
+                    <h3>{{ upcoming_count }}</h3>
+                </div>
+
+                <div class="home-overview-card">
+                    <p>Low Stock Alerts</p>
+                    <h3>{{ low_stock_count }}</h3>
+                </div>
+
             </div>
-
 
         </div>
     </section>
